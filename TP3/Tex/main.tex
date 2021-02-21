@@ -1,0 +1,203 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+	french,
+	11pt, % Default font size, values between 10pt-12pt are allowed
+	%letterpaper, % Uncomment for US letter paper size
+	%spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage{babel}
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{mathpazo} % Use the Palatino font
+% \usepackage{iwona} % Use the Iwona font
+% \usepackage[T1]{fontenc}
+% \usepackage{iwona}    %% Roman text font 
+% \usepackage{mathdots}
+% \usepackage{eulervm}
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{cases}	% Required to use nmbered tags in cases
+
+\usepackage{graphicx} % Required for including images
+\usepackage{caption}  %% To manage long captions in images
+\usepackage{subcaption}
+\usepackage{float}
+\graphicspath{ {./img/} }
+\captionsetup{justification=centering}
+
+\usepackage{booktabs} % Required for better horizontal rules in tables
+
+\usepackage{listings} % Required for insertion of code
+
+\usepackage{array} % Required for spacing in tabular environment
+
+\usepackage{enumerate} % To modify the enumerate environment
+
+\usepackage{amssymb}
+\usepackage{enumitem}	%% % To modify the itemize bullet character
+
+\usepackage[linkcolor=blue,colorlinks=true]{hyperref}
+\usepackage{cleveref}  %% To make links clickable
+
+\newcommand{\hquad}{\hspace{0.5em}} %% Bew command for half quad
+\usepackage{indentfirst}	%% Indent the first paragraph
+\newcommand{\bi}{\text{Bi}} 
+\newcommand{\bvec}[1]{\bm{#1}}    %% For vector notation
+\newcommand{\myvec}[2]{\begin{pmatrix} #1  \\ #2 \end{pmatrix}}   %% vecteur 2d
+\newcommand{\mymat}[4]{\begin{pmatrix} #1 & #2 \\ #3 & #4 \end{pmatrix}}  %% Matrice 2*2
+
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{T.P \#1} % Assignment title
+
+\author{Roussel Desmond Nzoyem} % Student name
+
+\date{\today} % Due date
+
+\institute{Université de Strasbourg \\ UFR de Mathématiques et Informatique} % Institute or school name
+
+\class{contrôle optimal} % Course or class name
+
+\professor{Pr. Yannick Privat} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT CONTENT - SECTION 1
+%----------------------------------------------------------------------------------------
+\textit{Dans toute la suite, les dépendances en $t$ et $x$ sont négligées au profit de la dépendance en $u$. Ainsi, l'état $y_u(t,x)$ sera noté $y(u)$, ou bien $y(u)(t,x)$ en cas de nécessité. Toujours afin de simplifier les notations, l'ensemble des contrôles admissibles $\mathcal{U}_{ad} = L^2(]0,T[)$ sera simplement noté $L^2$}.
+
+Si $J$ est différentiable en $u$, alors on peut écrire, pour $h \in \mathcal{U}_{ad}$ et $\eta > 0 $
+
+\begin{align*}
+	DJ(u)\cdot h &= \lim_{\eta \rightarrow 0}{ \frac{J(u+\eta  h) - J(u)}{\eta }}  \\
+	&= \frac{dJ(u+\eta h)}{d\eta} \bigg\rvert_{\eta = 0} \\
+	&= \frac{1}{2} \int_0^T \frac{d}{d\eta} (y(u+\eta h)(\cdot,L) - z_d)^2\,dt + \frac{\varepsilon}{2} \int_0^T \frac{d}{d\eta} (u+\eta h)^2\,dt  \bigg\rvert_{\eta=0}  \\
+	&= \frac{1}{2} \int_0^T y'(h)(\cdot,L) (y(u+\eta h)(\cdot,L) - z_d)\,dt + \frac{\varepsilon}{2} \int_0^T h (u+\eta h)\,dt  \bigg\rvert_{\eta=0} \\
+	&= \frac{1}{2} \int_0^T y'(h)(\cdot,L) \left[y(u)(\cdot,L) - z_d\right]\,dt + \frac{\varepsilon}{2} \int_0^T h u\,dt
+\end{align*}
+où la dérivée directionnelle de $y$ dans la direction $h$ est donnée par (expression indépendante de $\eta$) $$y'(h) =  \lim_{\eta \rightarrow 0}{ \frac{y(u+\eta  h) - y(u)}{\eta }}$$
+
+% ##### Continuité de y'(h)
+Remarquons que $y'(h)$ vérifie entre autres les équations suivantes: 
+\begin{align*}
+	\frac{\partial}{\partial t}y'(h) - \frac{\partial^2}{\partial x^2}y'(h) &= \frac{\partial}{\partial t} \frac{y(u+\eta h)- y(u)}{\eta} - \frac{\partial^2}{\partial x^2} \frac{y(u+\eta h)-y(u)}{\eta} = 0 \\
+	\frac{\partial}{\partial x}y'(h)(\cdot,L) &= \frac{\partial}{\partial x} \frac{y(u+\eta h)(\cdot,L)-y(u)(\cdot,L)}{\eta} = \frac{u+\eta h- u}{\eta} = h
+\end{align*} 
+et donc $y'(h)$ est solution du système $(\mathcal{P}')$ ci-bas:
+\begin{align*}
+	\frac{\partial}{\partial t}y'(h)(\cdot,\cdot) - \frac{\partial^2}{\partial x^2}y'(h)(\cdot,\cdot) &= 0 \\
+	y'(h)(0,\cdot) &= 0 \\
+	y'(h)(\cdot,0) &= 0  \\
+	\frac{\partial}{\partial x}y'(h)(\cdot,L) & = h
+\end{align*} 
+En posant $v = h+u$, on remarque que le vecteur $y(v)-y(u)$ résout le même système $(\mathcal{P}')$. Et on peut montre l'unicité de la solution faible pour ce système en introduisant une forme linéaire continue $l$ et une forme bilinéaire continue et coercive $a$, et en concluant à l'aide du théorème vu en cours. Le même théorème nous donne la continuité de la solution du système à travers les propriétés de l'application trace $ \gamma: \{v \in H^1(]0,L[\times]0,T[) \text{ t.q. } v(\cdot,0)=0\} \rightarrow L^2(\{0,L\}\times]0,T[)$. On en déduit donc que $y'(h) = y(v)-y(u)$, et que $y'(h)$ est continue en $h$. 
+
+% ##### Linéarité de y'(h)
+La linéarité de $y'(u)$ s'obtient en remarquant comme précédement que pour $h_1, h_2 \in \mathcal{U}_{ad}$ et $\beta \in \mathbb{R}$, $y'(h_1 + \beta h_2)$ et $y'(h_1) + \beta y'(h_2)$ sont solutions du même système d'EDP. 
+
+\textit{En remarquant que le système $(\mathcal{P}')$ résolu par $y'(h)$ est très similaire au système $(\mathcal{P})$ résolu par $y(u)$, on peut montrer que $y(u)$ est continue et linéaire en $u$ en employant la même démarche}.  
+
+$DJ(u)\cdot h$ est donc linéaire par rapport à $h$ comme somme de fonctions linéaires. On montre aussi que $DJ(u)\cdot h$ est continue en appliquant l'inégalité de Cauchy-Schwarz. Autrement dit, $\exists \, C_1 >0$ tel que
+
+\begin{align*}
+	\vert DJ(u)\cdot h \vert &= \bigg\rvert \frac{1}{2} \int_0^T y'(h)(\cdot,L) \left[y(u)(\cdot,L) - z_d\right]\,dt + \frac{\varepsilon}{2} \int_0^T h u\,dt \bigg\rvert \\
+	&\leq \frac{1}{2} \Vert y'(h)(\cdot,L) \Vert_{L^2} \Vert y(u)(\cdot,L) - z_d \Vert_{L^2} + \frac{\varepsilon}{2} \Vert h \Vert_{L^2} \Vert u \Vert_{L^2} &&\qquad \text{par C-S} \\
+	&\leq C_1 \Vert h \Vert_{L^2} &&\qquad \text{par continuité de $y'(\cdot)$}
+\end{align*}
+En se rappelant que $y'(h) = y(v)-y(u)$, $\exists \, C_2 >0$ tel que 
+% 
+\begin{align*}
+	\frac{\vert J(u+h) - J(u) - DJ(u)\cdot h \vert}{\Vert h \Vert_{L^2} } &= \frac{\vert J(v) - J(u) - DJ(u)\cdot h \vert}{\Vert h \Vert_{L^2} } \\
+	&= \frac{ \big\rvert \Vert y(v)(\cdot,L)-z_d \Vert_{L^2} + \Vert v \Vert_{L^2} - \Vert y(u)(\cdot,L)-z_d \Vert_{L^2} - \Vert u \Vert_{L^2} - \left\langle y(v)(\cdot,L)-z_d, y(u)(\cdot,L)-z_d \right\rangle_{L^2} - \left\langle v-u, u \right\rangle_{L^2} \big\rvert}{\Vert h \Vert_{L^2}} \\
+	&= \frac{ \big\rvert \left\langle y(v)(\cdot,L)-y(u)(\cdot,L), y(v)(\cdot,L)-z_d \right\rangle_{L^2} - \left\langle v-u, v \right\rangle_{L^2} \big\rvert}{\Vert h \Vert_{L^2}} \\
+	&\leq  \frac{ C_2 \Vert h \Vert^2_{L^2}}{\Vert h \Vert_{L^2}} \qquad \text{par linéarité et continuité de $v \mapsto y(v)=y(h+u)$}
+\end{align*}
+La différentiabilité de $J$ en $u$ en découle, car
+$$
+\lim_{\Vert h \Vert_{L^2} \rightarrow 0} \frac{\vert J(u+h) - J(u) - DJ(u)\cdot h \vert}{\Vert h \Vert_{L^2} } = 0 
+$$
+
+
+Exprimons explicitement chacun des termes de la différentielle $DJ(u)\cdot h$ en fonction de $h$. Pour cela, introduisons l'adjoint $p:(t,x) \mapsto p_u(t,x)$. Multiplions l'équation de la chaleur $(\mathcal{P}')$ résolue par $y'(h)$ par $p$ et intégrons par parties. On a:
+\begin{align*}
+	\frac{\partial y'(h)}{\partial t} - \frac{\partial^2 y'(h)}{\partial x^2} = 0 \\
+	\Longrightarrow \int_0^T \int_0^L \left( \frac{\partial y'(h)}{\partial t} - \frac{\partial^2 y'(h)}{\partial x^2} \right) p = 0 \\
+	\Longrightarrow \int_0^T \left( \int_0^L \frac{\partial y'(h)}{\partial t} p \right) - \int_0^T \left( \int_0^L \frac{\partial^2 y'(h)}{\partial x^2}p \right) = 0 \\
+	\Longrightarrow - \int_0^L \int_0^T \frac{\partial p}{\partial t} y'(h) + \int_0^L \left[ y'(h)p \right]_0^T- \int_0^T \int_0^L \frac{\partial y'(h)}{\partial x} \frac{\partial p}{\partial x} - \int_0^T \left[ \frac{\partial y'(h)}{\partial x}p \right]_0^L  = 0 \\
+\end{align*}
+
+- Vu que $y'(h)(0, \cdot) = y(v)(0, \cdot)- y(u)(0, \cdot) = 0$, le deuxième terme de la somme ci-haut $\int_0^L \left[ y'(h)p \right]_0^T $ s'annule en prenant $p(T, \cdot) = 0$. 
+
+- En prenant $p(\cdot, 0) = 0$, le quatrième terme donne $\int_0^T \left[ \frac{\partial y'(h)}{\partial x}p \right]_0^L = \int_0^T \frac{\partial y'(h)}{\partial x}p\big\rvert_{x=L} = \int_0^T h(\cdot)p(\cdot,L)$, de part le fait que $\frac{\partial y'(h)}{\partial x}(\cdot,L) = h$.
+
+- Effectuons ensuite une seconde intégration par parties sur le troisième terme de la somme ci-haut (terme du milieu ci-bas), on obtient alors
+\begin{align*}
+	- \int_0^L \int_0^T \frac{\partial p}{\partial t} y'(h) -\int_0^T \int_0^L \frac{\partial y'(h)}{\partial x} \frac{\partial p}{\partial x} - \int_0^T h(\cdot)p(\cdot,L) = 0 \\
+	\Longrightarrow - \int_0^L \int_0^T \frac{\partial p}{\partial t} y'(h) - \int_0^T \int_0^L y'(h) \frac{\partial^2 p}{\partial x^2} + \int_0^T \left[ \frac{\partial p}{\partial x} y'(h)\right]_0^L - \int_0^T h(\cdot)p(\cdot,L) = 0 \\
+	\Longrightarrow \int_0^L \int_0^T \left(-\frac{\partial p}{\partial t} - \frac{\partial^2 p}{\partial x^2} \right) y'(h) + \int_0^T \frac{\partial p}{\partial x}(\cdot,L) y'(h)(\cdot,L) - \int_0^T h(\cdot)p(\cdot,L) = 0 \\
+\end{align*}
+En posant
+\begin{align*}
+	-\frac{\partial p}{\partial t} - \frac{\partial^2 p}{\partial x^2} = 0 \qquad \text{et} \qquad
+	\frac{\partial p}{\partial x}(\cdot,L) = y(u)(\cdot,L) - z_d(\cdot)
+\end{align*}
+on obtient 
+$$
+\int_0^T y'(h)(\cdot,L) \left( y(u)(\cdot,L) - z_d(\cdot) \right) = \int_0^T h(\cdot)p(\cdot,L)
+$$
+Qu'on remplace immédiatement dans l'expression de $DJ(u)\cdot h$ pour obtenir
+
+\begin{align*}
+DJ(u)\cdot h &=  \frac{1}{2} \int_0^T y'(h)(\cdot,L) (y(u)(\cdot,L) - z_d(\cdot))\,dt + \frac{\varepsilon}{2} \int_0^T h u\,dt \\
+&= \frac{1}{2} \int_0^T h(\cdot)p(\cdot,L)\,dt + \frac{\varepsilon}{2} \int_0^T h(\cdot) u(\cdot)\,dt \\
+&= \left\langle  \frac{1}{2} p(\cdot,L) + \frac{\varepsilon}{2}u(\cdot),\, h(\cdot)  \right\rangle_{L^2(]0,T[)}
+\end{align*}
+Nous avons donc montré que le gradient de $J$ en $u$ vaut 
+$$
+\nabla J(u) = \frac{1}{2} p(\cdot,L) + \frac{\varepsilon}{2}u(\cdot)
+$$
+en considérant l'état adjoint défini pour $(t,x) \in [0,T]\times[0,L]$ par le système
+\begin{align*}
+	\frac{\partial p}{\partial t} (t,x) + \frac{\partial^2 p}{\partial x^2} (t,x) &= 0 \\
+	p(T,x) &= 0 \\
+	p(t,0) &= 0  \\
+	\frac{\partial p}{\partial x} (t,L) &= y(u)(t,L) - z_d(t)
+\end{align*} 
+
+% -------------------------------------------------------------------------------
+% REFERENCES
+% --------------------------------------------------------------------------------
+% \section*{References}
+
+\end{document}

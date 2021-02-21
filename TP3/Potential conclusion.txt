@@ -1,0 +1,1 @@
+On observe aussi quelques rares difficultés de convergences (par exemple pour $\varepsilon$ = 4 qui nécessite 230 itérations). Plusieurs paramètres peuvent êtres à la cause de cette difficulté, les plus probables étant la valeur maximale du pas de descente $\rho$, l'initialisation $u^0$, le critère d'arrèt, etc.
